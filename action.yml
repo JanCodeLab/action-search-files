@@ -58,20 +58,20 @@ runs:
           
           # Build find command
           find_command="find \"$dir\" $depth_flag -type f"
+          
+          # Add extension filter
+          if [ "$extensions" != "*" ]; then
+            filter=""
+            for ext in "${ext_array[@]}"; do
+              if [ -n "$filter" ]; then
+                filter="$filter -o"
+              fi
+              filter="$filter -name \"*.$ext\""
+            done
+            find_command="$find_command -a \\( $filter \\)"
+          fi
 
           echo "find_command=$find_command"
-          
-          # # Add extension filter
-          # if [ "$extensions" != "*" ]; then
-          #   filter=""
-          #   for ext in "${ext_array[@]}"; do
-          #     if [ -n "$filter" ]; then
-          #       filter="$filter -o"
-          #     fi
-          #     filter="$filter -name \"*.$ext\""
-          #   done
-          #   find_command="$find_command -a \\( $filter \\)"
-          # fi
           
           # # Add exclusion filter
           # for excluded in "${excluded_array[@]}"; do
