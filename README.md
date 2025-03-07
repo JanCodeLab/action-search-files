@@ -28,7 +28,7 @@ This GitHub Action searches for files by extension and provides folder exclusion
 
 | Output | Description |
 |--------|-------------|
-| `files` | JSON array of files that match the search criteria |
+| `files` | files that match the search criteria in Comma-separated list |
 | `match-count` | Number of files found |
 
 ## Example: Finding C# files excluding build artifacts
@@ -38,11 +38,11 @@ jobs:
   find-cs-files:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       
       - name: Find C# files
         id: cs-finder
-        uses: JanCodeLab/actions-search-files@v0.1
+        uses: JanCodeLab/action-search-files@v0.1
         with:
           file-extensions: 'cs'
           excluded-folders: 'bin,obj,packages,TestResults'
@@ -53,11 +53,4 @@ jobs:
           echo "${{ steps.cs-finder.outputs.files }}"
 ```
 
-## Versioning
-
-- **@v1**: Initial version with file extension filtering and folder exclusion
-
-To use a specific version:
-```yaml
-uses: JanCodeLab/actions-search-files@v0.1
-```
+## Changelog
