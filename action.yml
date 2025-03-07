@@ -89,9 +89,9 @@ runs:
           echo "files=$files_list" >> $GITHUB_OUTPUT
           echo "match-count=$match_count" >> $GITHUB_OUTPUT
           
-          # # Display summary
-          # echo "Found $match_count files matching the criteria"
-          # echo "$files"
+          # Display summary
+          echo "Found $match_count files matching the criteria"
+          echo "$files"
         }
         
         # Call the search function with inputs
