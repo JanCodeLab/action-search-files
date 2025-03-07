@@ -20,14 +20,39 @@ try {
   console.log(`  Recursive: ${recursive}`);
   console.log(`  Excluded Folders: ${excludedFoldersList.join(', ')}`);
 
+  // Helper function to normalize paths for consistent comparison across platforms
+  const normalizePath = (pathStr) => {
+    return pathStr
+      .replace(/\\/g, '/') // Convert all backslashes to forward slashes
+      .replace(/\/$/g, '')  // Remove trailing slash
+      .toLowerCase();       // Case-insensitive comparison for Windows
+  };
+
   // Helper function to check if a path should be excluded
   const shouldExclude = (filePath) => {
-    const normalizedPath = filePath.replace(/\\/g, '/').replace(/\/$/g, '');
+    if (!excludedFoldersList.length) return false;
+
+    const normalizedPath = normalizePath(filePath);
     
+    // Check each excluded folder
     return excludedFoldersList.some(excluded => {
-      const normalizedExcluded = excluded.replace(/\\/g, '/').replace(/\/$/g, '');
-      return normalizedPath === normalizedExcluded || 
-             normalizedPath.startsWith(normalizedExcluded + '/');
+      const normalizedExcluded = normalizePath(excluded);
+
+      // Check if path is exactly the excluded folder
+      if (normalizedPath === normalizedExcluded) return true;
+
+      // Check if path is a subfolder of the excluded folder
+      // Ensure proper path boundary by checking for slash
+      if (normalizedPath.startsWith(normalizedExcluded + '/')) return true;
+
+      // For root level paths, handle Windows drive letters
+      const isRootLevel = normalizedExcluded.indexOf('/') === -1;
+      if (isRootLevel) {
+        const pathParts = normalizedPath.split('/');
+        return pathParts.includes(normalizedExcluded);
+      }
+
+      return false;
     });
   };
 
@@ -40,20 +65,30 @@ try {
 
   // Search function that works across platforms
   const searchFiles = (dir, matchedFiles = []) => {
-    if (shouldExclude(dir)) return matchedFiles;
+    // Skip excluded directories
+    if (shouldExclude(dir)) {
+      console.log(`Skipping excluded directory: ${dir}`);
+      return matchedFiles;
+    }
 
-    const items = fs.readdirSync(dir, { withFileTypes: true });
-    
-    for (const item of items) {
-      const fullPath = path.join(dir, item.name);
+    try {
+      const items = fs.readdirSync(dir, { withFileTypes: true });
       
-      if (item.isDirectory()) {
-        if (recursive && !shouldExclude(fullPath)) {
-          searchFiles(fullPath, matchedFiles);
+      for (const item of items) {
+        const fullPath = path.join(dir, item.name);
+        
+        if (item.isDirectory()) {
+          // For directories, check if it should be excluded
+          if (recursive && !shouldExclude(fullPath)) {
+            searchFiles(fullPath, matchedFiles);
+          }
+        } else if (item.isFile() && hasMatchingExtension(item.name, extensions)) {
+          // For files, add to results if extension matches
+          matchedFiles.push(fullPath);
         }
-      } else if (item.isFile() && hasMatchingExtension(item.name, extensions)) {
-        matchedFiles.push(fullPath);
       }
+    } catch (err) {
+      console.warn(`Error reading directory ${dir}: ${err.message}`);
     }
     
     return matchedFiles;
@@ -61,6 +96,8 @@ try {
 
   // Perform search
   const startDir = path.resolve(directory);
+  console.log(`Starting search in resolved directory: ${startDir}`);
+  
   const matchedFiles = searchFiles(startDir);
   const matchCount = matchedFiles.length;
 
