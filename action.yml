@@ -80,9 +80,9 @@ runs:
 
           echo "find_command=$find_command"
           
-          # # Execute find command
-          # files=$(eval $find_command 2>/dev/null)
-          # match_count=$(echo "$files" | grep -v "^$" | wc -l)
+          # Execute find command
+          files=$(eval $find_command 2>/dev/null)
+          match_count=$(echo "$files" | grep -v "^$" | wc -l)
           
           # # Convert to expected output format
           # files_list=$(echo "$files" | tr '\n' ',' | sed 's/,$//')
