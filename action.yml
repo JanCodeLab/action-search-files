@@ -81,17 +81,13 @@ runs:
           # Execute find command
           files=$(eval $find_command 2>/dev/null)
           match_count=$(echo "$files" | grep -v "^$" | wc -l)
-
-          echo "files=$files"
-          echo "match-count=$match_count"
           
           # Convert to expected output format
           files_list=$(echo "$files" | tr '\n' ',' | sed 's/,$//')
           
-          echo "files=$files_list"
-          # # Set outputs
-          # echo "files=$files_list" >> $GITHUB_OUTPUT
-          # echo "match-count=$match_count" >> $GITHUB_OUTPUT
+          # Set outputs
+          echo "files=$files_list" >> $GITHUB_OUTPUT
+          echo "match-count=$match_count" >> $GITHUB_OUTPUT
           
           # # Display summary
           # echo "Found $match_count files matching the criteria"
