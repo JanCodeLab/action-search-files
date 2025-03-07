@@ -1,0 +1,21 @@
+{
+  "name": "action-search-files",
+  "version": "1.0.0",
+  "description": "GitHub Action to search for files with folder exclusion support",
+  "main": "search-files.js",
+  "scripts": {
+    "build": "ncc build search-files.js -o dist",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "github",
+    "action",
+    "search",
+    "files"
+  ],
+  "author": "JanCodeLab",
+  "license": "MIT",
+  "dependencies": {
+    "@actions/core": "^1.10.0"
+  }
+}

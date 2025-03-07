@@ -23,76 +23,9 @@ inputs:
 outputs:
   files:
     description: 'List of files that match the search criteria'
-    value: ${{ steps.search.outputs.files }}
   match-count:
     description: 'Number of files found'
-    value: ${{ steps.search.outputs.match-count }}
 
 runs:
-  using: 'composite'
-  steps:
-    - name: Search Files
-      id: search
-      shell: bash
-      run: |
-        # Function to search for files
-        search_files() {
-          local dir="$1"
-          local extensions="$2"
-          local recursive="$3"
-          local excluded_folders="$4"
-          local matched_files=()
-          local match_count=0
-
-          # Process file extensions
-          IFS=',' read -ra ext_array <<< "$extensions"
-          
-          # Process excluded folders
-          IFS=',' read -ra excluded_array <<< "$excluded_folders"
-          
-          # Set recursive flag
-          local depth_flag=""
-          if [ "$recursive" != "true" ]; then
-            depth_flag="-maxdepth 1"
-          fi
-          
-          # Build find command
-          find_command="find \"$dir\" $depth_flag -type f"
-          
-          # Add extension filter
-          if [ "$extensions" != "*" ]; then
-            filter=""
-            for ext in "${ext_array[@]}"; do
-              if [ -n "$filter" ]; then
-                filter="$filter -o"
-              fi
-              filter="$filter -name \"*.$ext\""
-            done
-            find_command="$find_command -a \\( $filter \\)"
-          fi
-          
-          # Add exclusion filter
-          for excluded in "${excluded_array[@]}"; do
-            if [ -n "$excluded" ]; then
-              find_command="$find_command -not -path \"*/$excluded/*\""
-            fi
-          done
-          
-          # Execute find command
-          files=$(eval $find_command 2>/dev/null)
-          match_count=$(echo "$files" | grep -v "^$" | wc -l)
-          
-          # Convert to expected output format
-          files_list=$(echo "$files" | tr '\n' ',' | sed 's/,$//')
-          
-          # Set outputs
-          echo "files=$files_list" >> $GITHUB_OUTPUT
-          echo "match-count=$match_count" >> $GITHUB_OUTPUT
-          
-          # Display summary
-          echo "Found $match_count files matching the criteria"
-          echo "$files"
-        }
-        
-        # Call the search function with inputs
-        search_files "${{ inputs.directory }}" "${{ inputs.file-extensions }}" "${{ inputs.recursive }}" "${{ inputs.excluded-folders }}"
+  using: 'node16'
+  main: 'dist/index.js'
