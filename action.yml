@@ -32,5 +32,5 @@ runs:
   using: 'composite'
   steps:
     - name: Search Files
-      shell: pwsh
+      shell: powershell
       run: ${{ github.action_path }}\search-files.ps1 -FileExtensions "${{ inputs.file-extensions }}" -Directory "${{ inputs.directory }}" -Recursive ${{ inputs.recursive }} -ExcludedFolders "${{ inputs.excluded-folders }}"
