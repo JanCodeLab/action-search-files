@@ -17,17 +17,7 @@ function Set-ActionOutput {
         [string]$Value
     )
     
-    # Support for different GitHub Actions environments
-    if ($env:GITHUB_OUTPUT) {
-        # GitHub Actions v2
-        Add-Content -Path $env:GITHUB_OUTPUT -Value "$Name=$Value"
-    } else {
-        # GitHub Actions v1
-        Write-Output "::set-output name=$Name::$Value"
-    }
-    
-    # Also output to console for debugging
-    Write-Output "$Name=$Value"
+    Write-Output "$Name=$Value" >> $env:GITHUB_ACTION
 }
 
 # Convert string 'true'/'false' to boolean for PowerShell
