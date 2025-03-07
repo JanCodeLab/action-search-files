@@ -1,6 +1,6 @@
 name: 'Search Files'
 description: 'Search for files within a repository with folder exclusion support'
-author: 'duchacekjan'
+author: 'JanCodeLab'
 
 inputs:
   file-extensions:

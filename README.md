@@ -6,7 +6,7 @@ This GitHub Action searches for files by extension and provides folder exclusion
 
 ```yaml
 - name: Search for files
-  uses: duchacekjan/actions/search-files@v1
+  uses: JanCodeLab/actions-search-files@v0.1
   id: search
   with:
     file-extensions: 'cs,js,ts'  # Comma-separated file extensions
@@ -42,7 +42,7 @@ jobs:
       
       - name: Find C# files
         id: cs-finder
-        uses: duchacekjan/actions/search-files@v1
+        uses: JanCodeLab/actions-search-files@v0.1
         with:
           file-extensions: 'cs'
           excluded-folders: 'bin,obj,packages,TestResults'
@@ -59,5 +59,5 @@ jobs:
 
 To use a specific version:
 ```yaml
-uses: duchacekjan/actions/search-files@v1
+uses: JanCodeLab/actions-search-files@v0.1
 ```
