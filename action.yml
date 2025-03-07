@@ -88,6 +88,7 @@ runs:
           # Convert to expected output format
           files_list=$(echo "$files" | tr '\n' ',' | sed 's/,$//')
           
+          echo "files=$files_list"
           # # Set outputs
           # echo "files=$files_list" >> $GITHUB_OUTPUT
           # echo "match-count=$match_count" >> $GITHUB_OUTPUT
