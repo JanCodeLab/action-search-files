@@ -43,14 +43,9 @@ runs:
           local excluded_folders="$4"
           local matched_files=()
           local match_count=0
-          
-          echo "$dir"
-          echo "$extensions"
-          echo "$recursive"
-          echo "$excluded_folders"
 
-          # # Process file extensions
-          # IFS=',' read -ra ext_array <<< "$extensions"
+          # Process file extensions
+          IFS=',' read -ra ext_array <<< "$extensions"
           
           # # Process excluded folders
           # IFS=',' read -ra excluded_array <<< "$excluded_folders"

@@ -22,7 +22,7 @@ jobs:
       # Runs a single command using the runners shell
       - name: Search Files
         id: search
-        uses: JanCodeLab/action-search-files@main
+        uses: JanCodeLab/action-search-files@testv1
         with:
           file-extensions: 'yml'
           directory: './test'
