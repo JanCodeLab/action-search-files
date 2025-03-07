@@ -1,0 +1,36 @@
+name: 'Search Files'
+description: 'Search for files within a repository with folder exclusion support'
+author: 'JanCodeLab'
+
+inputs:
+  file-extensions:
+    description: 'File extensions to search (comma separated)'
+    required: false
+    default: '*'
+  directory:
+    description: 'Directory to search within'
+    required: false
+    default: '.'
+  recursive:
+    description: 'Search recursively in subdirectories'
+    required: false
+    default: 'true'
+  excluded-folders:
+    description: 'Folders to exclude from search (comma separated)'
+    required: false
+    default: ''
+
+outputs:
+  files:
+    description: 'List of files that match the search criteria'
+    value: '[]'
+  match-count:
+    description: 'Number of files found'
+    value: '0'
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Search Files
+      shell: pwsh
+      run: ${{ github.action_path }}/search-files.ps1 -FileExtensions "${{ inputs.file-extensions }}" -Directory "${{ inputs.directory }}" -Recursive $${{ inputs.recursive }} -ExcludedFolders "${{ inputs.excluded-folders }}"
