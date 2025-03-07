@@ -5,7 +5,7 @@ param(
     
     [string]$Directory = '.',
     
-    [bool]$Recursive = $true,
+    #[string]$Recursive = 'true',
     
     [string]$ExcludedFolders = ''
 )
@@ -29,6 +29,9 @@ function Set-ActionOutput {
     # Also output to console for debugging
     Write-Output "$Name=$Value"
 }
+
+# Convert string 'true'/'false' to boolean for PowerShell
+$recursiveBool = if ("$Recursive" -eq "true") { $true } else { $false }
 
 # Process file extensions
 $extensions = $FileExtensions.Split(',') | ForEach-Object { $_.Trim() }
@@ -75,7 +78,7 @@ function Should-Exclude {
 # Perform search
 foreach ($filter in $extensionFilters) {
     # Get all files matching extension filter
-    $files = Get-ChildItem -Path $Directory -Filter $filter -File -Recurse:$Recursive
+    $files = Get-ChildItem -Path $Directory -Filter $filter -File -Recurse:$recursiveBool
     
     # Filter out files from excluded folders
     $filteredFiles = $files | Where-Object {
