@@ -81,7 +81,10 @@ foreach ($filter in $extensionFilters) {
 
 # Format the output as JSON for structured data
 $filesList = $matchedFiles | ForEach-Object { $_.FullName } | ConvertTo-Json -Compress
-Set-ActionOutput -Name "files" -Value $filesList
+$jsonData = $filesList -replace '"', '\"'
+#$filesList = $matchedFiles | ForEach-Object { $_.FullName } | Join-String -Separator ","
+
+Set-ActionOutput -Name "files" -Value $jsonData
 Set-ActionOutput -Name "match-count" -Value $matchCount
 
 # Display summary
