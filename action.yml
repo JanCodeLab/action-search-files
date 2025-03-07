@@ -47,17 +47,19 @@ runs:
           # Process file extensions
           IFS=',' read -ra ext_array <<< "$extensions"
           
-          # # Process excluded folders
-          # IFS=',' read -ra excluded_array <<< "$excluded_folders"
+          # Process excluded folders
+          IFS=',' read -ra excluded_array <<< "$excluded_folders"
           
-          # # Set recursive flag
-          # local depth_flag=""
-          # if [ "$recursive" != "true" ]; then
-          #   depth_flag="-maxdepth 1"
-          # fi
+          # Set recursive flag
+          local depth_flag=""
+          if [ "$recursive" != "true" ]; then
+            depth_flag="-maxdepth 1"
+          fi
           
-          # # Build find command
-          # find_command="find \"$dir\" $depth_flag -type f"
+          # Build find command
+          find_command="find \"$dir\" $depth_flag -type f"
+
+          echo "find_command=$find_command"
           
           # # Add extension filter
           # if [ "$extensions" != "*" ]; then
