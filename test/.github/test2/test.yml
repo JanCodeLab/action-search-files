@@ -24,7 +24,7 @@ jobs:
         id: search
         uses: JanCodeLab/action-search-files@testv1
         with:
-          file-extensions: 'yml'
+          file-extensions: 'yml,conf'
           directory: './test'
           excluded-folders: '.github'
           
