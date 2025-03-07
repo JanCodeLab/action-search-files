@@ -70,15 +70,15 @@ runs:
             done
             find_command="$find_command -a \\( $filter \\)"
           fi
+          
+          # Add exclusion filter
+          for excluded in "${excluded_array[@]}"; do
+            if [ -n "$excluded" ]; then
+              find_command="$find_command -not -path \"*/$excluded/*\""
+            fi
+          done
 
           echo "find_command=$find_command"
-          
-          # # Add exclusion filter
-          # for excluded in "${excluded_array[@]}"; do
-          #   if [ -n "$excluded" ]; then
-          #     find_command="$find_command -not -path \"*/$excluded/*\""
-          #   fi
-          # done
           
           # # Execute find command
           # files=$(eval $find_command 2>/dev/null)
