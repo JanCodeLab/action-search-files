@@ -1,6 +1,6 @@
 {
   "name": "action-search-files",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "description": "GitHub Action to search for files with folder exclusion support",
   "main": "search-files.js",
   "scripts": {

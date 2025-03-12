@@ -54,7 +54,9 @@ jobs:
 ```
 
 ## Changelog
-- v1.1 (latest)
+- v1.2 (latest)
+  - Fixed versioning
+- v1.1
   - Optimized logging
 - v1
   - Initial implementation of action
