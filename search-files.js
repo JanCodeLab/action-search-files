@@ -13,12 +13,6 @@ try {
   const extensions = fileExtensions === '*' ? ['*'] : fileExtensions.split(',').map(ext => ext.trim());
   const excludedFoldersList = excludedFolders ? excludedFolders.split(',').map(folder => folder.trim()) : [];
 
-  // Log search parameters
-  console.log('Search Parameters:');
-  console.log(`  Directory: ${directory}`);
-  console.log(`  Extensions: ${fileExtensions}`);
-  console.log(`  Recursive: ${recursive}`);
-  console.log(`  Excluded Folders: ${excludedFoldersList.join(', ')}`);
 
   // Helper function to normalize paths for consistent comparison across platforms
   const normalizePath = (pathStr) => {
@@ -67,7 +61,7 @@ try {
   const searchFiles = (dir, matchedFiles = []) => {
     // Skip excluded directories
     if (shouldExclude(dir)) {
-      console.log(`Skipping excluded directory: ${dir}`);
+      core.info(`Skipping excluded directory: ${dir}`);
       return matchedFiles;
     }
 
@@ -88,7 +82,7 @@ try {
         }
       }
     } catch (err) {
-      console.warn(`Error reading directory ${dir}: ${err.message}`);
+      core.warning(`⚠️Error reading directory ${dir}: ${err.message}`);
     }
     
     return matchedFiles;
@@ -96,7 +90,7 @@ try {
 
   // Perform search
   const startDir = path.resolve(directory);
-  console.log(`Starting search in resolved directory: ${startDir}`);
+  core.info(`🔍 Starting search in resolved directory: ${startDir}`);
   
   const matchedFiles = searchFiles(startDir);
   const matchCount = matchedFiles.length;
@@ -109,8 +103,8 @@ try {
   core.setOutput('match-count', matchCount);
 
   // Display summary
-  console.log(`Found ${matchCount} files matching the criteria`);
-  matchedFiles.forEach(file => console.log(file));
+  core.info(`✅ Found ${matchCount} files matching the criteria`);
+  matchedFiles.forEach(file => core.info(`📄 ${file}`));
 
 } catch (error) {
   core.setFailed(`Action failed: ${error.message}`);
