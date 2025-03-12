@@ -54,5 +54,7 @@ jobs:
 ```
 
 ## Changelog
+- v1.1 (latest)
+  - Optimized logging
 - v1
   - Initial implementation of action
