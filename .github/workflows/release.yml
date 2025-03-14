@@ -1,0 +1,14 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  add-tag:
+    name: Add tags
+    uses: JanCodeLab/workflows/.github/workflows/add-tag-from-package.yml@latest
+    with:
+      version-file: './package.json'
+      is-latest: true
