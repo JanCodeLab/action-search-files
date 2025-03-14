@@ -1,5 +1,6 @@
 # Search Files Action
 [![Release](https://github.com/JanCodeLab/action-search-files/actions/workflows/release.yml/badge.svg)](https://github.com/JanCodeLab/action-search-files/actions/workflows/release.yml)
+
 This GitHub Action searches for files by extension and provides folder exclusion capabilities. It's built using PowerShell and can be used across your organization.
 
 ## Usage
